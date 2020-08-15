@@ -31,12 +31,12 @@
 - 随着系统的增多，完成一个流程可能需要**几十秒的时间**，那对于用户来说，自然不会在你这进行购买。
 > 一般的互联网企业，对于用户请求响应的时间要求在100ms-200ms之间，这样，用户的眼睛存在视觉暂停现象。
 
-![在这里插入图片描述](https://github.com/jingdomaaa/Java-learning-record/blob/master/image/MQ/MQ1.png?raw=true)
+![在这里插入图片描述]( https://raw.githubusercontent.com/jingdomaaa/Java-learning-record/master/image/MQ/MQ1.png )
 - 由上图可知链路一旦长了，完成链路所消耗的时间也就变长。
 
 - 不过不难发现，我们可以将上面的流程同时做，支付成功后，同时校验优惠券、增减积分、发送短信。
 
-  ![在这里插入图片描述](https://github.com/jingdomaaa/Java-learning-record/blob/master/image/MQ/MQ2.png?raw=true)
+  ![在这里插入图片描述]( https://raw.githubusercontent.com/jingdomaaa/Java-learning-record/master/image/MQ/MQ2.png )
 
 - 正常流程没法实现这个过程，于是我们可以使用异步、
 
@@ -50,7 +50,7 @@
 
 - 此时**消息队列**的作用就体现出来了，它可以将上面的问题迎刃而解。
 
-  ![在这里插入图片描述](https://github.com/jingdomaaa/Java-learning-record/blob/master/image/MQ/MQ3.png?raw=true)
+  ![在这里插入图片描述]( https://raw.githubusercontent.com/jingdomaaa/Java-learning-record/master/image/MQ/MQ3.png )
 
 - 下单后，把**支付成功的消息告诉给别的系统**，他们收到之后去处理，我们只需要自己的流程运行完，把自己的消息发送出去，然后其他系统直接订阅我发送的支付成功的消息，我支付成功了别人监听就行了。
 
@@ -59,7 +59,8 @@
 - 以秒杀活动为例，平时流量很低，秒杀活动00:00时，流量疯狂怼进来，我们的服务器、**Redis**，**MySQL**各自的承受能力都不一样，直接**全部流量照单全收**自然有问题，直接就打挂了。
 - 此时我们就可以把请求放到队列里面，之后每秒消费多少请求，就看自己的服务器的处理能力，能处理5000QPS就消费这么多，可能会比正常慢一些，但不至于打挂服务器，等流量高峰下去了，服务也就没压力了。
 - 阿里双十一00:00的时候那么多流量瞬间涌进去，他有的时候回慢一些，但人家没挂，或者降级给你个友好的提示页面，等高峰过去了又是一条好汉。
-## MQ的缺点
+## [MQ的缺点](./MQ_problem_solving.md)
+
 ### 系统复杂性
 - 在原本较简单的一个系统当中接入了一个中间件，需要考虑维护中间件。
 - 使用过程中需要考虑**消息重复消费**、**消息丢失**、**消息的顺序消费**等问题。
